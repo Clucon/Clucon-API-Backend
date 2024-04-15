@@ -93,7 +93,7 @@ exports.loginUser = catchAsyncErrors(async (req, res) => {
     const user = await User.findOne({ email }).select("+password");
 
     if (!user) {
-      return res.status().send("User doesn't exists!");
+      return res.status(404).send("User doesn't exists!");
     }
 
     const isPasswordValid = await user.comparePassword(password);
