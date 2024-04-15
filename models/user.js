@@ -22,6 +22,7 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       minlength: [6, "Invalid length! Minimum is 6 characters"],
+      required: true,
     },
     first_name: {
       type: String,
@@ -33,7 +34,7 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Role",
+      default: "user",
     },
     phoneNo: {
       type: String,
