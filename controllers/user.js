@@ -106,7 +106,7 @@ exports.loginUser = catchAsyncErrors(async (req, res) => {
     }
 
     sendToken(user, 201, res);
-    res.status(200).send({ message: "Login successful." });
+    // res.status(200).send({ message: "Login successful." });
   } catch (error) {
     return res.status(500).send(error.message);
   }

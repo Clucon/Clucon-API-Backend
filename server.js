@@ -1,6 +1,7 @@
 const express = require("express");
 const { connectToMongoDB } = require("./config/db");
 const userRouter = require("./routes/user");
+const cookieParser = require('cookie-parser');
 require("dotenv").config();
 
 const PORT = process.env.PORT || 3000;
@@ -17,6 +18,7 @@ const app = express();
 connectToMongoDB();
 
 app.use(express.json());
+app.use(cookieParser());
 app.use("/user", userRouter);
 
 app.get("/", (_, res) => {
