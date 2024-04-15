@@ -10,9 +10,17 @@ const sendToken = (user, statusCode, res) => {
     secure: true,
   };
 
+  const userData = {
+    username: user.username,
+    email: user.email,
+    first_name: user.first_name,
+    last_name: user.last_name,
+    phoneNo: user.phoneNo,
+  }
+
   res.status(statusCode).cookie("token", token, options).json({
     success: true,
-    user,
+    userData,
     token,
   });
 };
