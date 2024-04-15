@@ -4,6 +4,11 @@ const jwt = require("jsonwebtoken");
 const sendToken = require("../utils/jwtToken");
 const sendMail = require("../utils/sendMail");
 
+const apiUrl =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:3000"
+    : "https://clucon-api.onrender.com";
+
 // create user
 exports.createUser = async (req, res) => {
   try {
@@ -20,7 +25,7 @@ exports.createUser = async (req, res) => {
 
     const activationToken = createActivationToken(user);
 
-    const activationUrl = `http://localhost:3000/user/activation/${activationToken}`;
+    const activationUrl = `${apiUrl}/user/activation/${activationToken}`;
 
     try {
       await sendMail({
@@ -94,7 +99,9 @@ exports.loginUser = catchAsyncErrors(async (req, res) => {
     const isPasswordValid = await user.comparePassword(password);
 
     if (!isPasswordValid) {
-      res.status(400).send({ message: "Please provide the correct information" });
+      res
+        .status(400)
+        .send({ message: "Please provide the correct information" });
       return;
     }
 
@@ -111,7 +118,7 @@ exports.loadUser = catchAsyncErrors(async (req, res) => {
     const user = await User.findById(req.user.id);
 
     if (!user) {
-      return res.status(400).send({message: "User doesn't exists"});
+      return res.status(400).send({ message: "User doesn't exists" });
     }
 
     res.status(200).json({
@@ -155,7 +162,7 @@ exports.updateUserInfo = catchAsyncErrors(async (req, res) => {
     const user = await User.findOne({ email }).select("+password");
 
     if (!user) {
-      return res.status(400).send({message: "User not found"});
+      return res.status(400).send({ message: "User not found" });
     }
 
     const isPasswordValid = await user.comparePassword(password);
