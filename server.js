@@ -1,6 +1,6 @@
 const express = require("express");
 const { connectToMongoDB } = require("./config/db");
-const appRoutes = require("./routes/user")
+const userRouter = require("./routes/user");
 require("dotenv").config();
 
 const PORT = process.env.PORT || 3000;
@@ -17,7 +17,7 @@ const app = express();
 connectToMongoDB();
 
 app.use(express.json());
-app.use(appRoutes);
+app.use("/user", userRouter);
 
 app.get("/", (_, res) => {
   res.status(200).send("Welcome to Clucon!");
